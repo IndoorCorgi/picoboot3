@@ -45,7 +45,7 @@ Below are the memory maps for a typical application and an application using Pic
 
 ### Typical Application
 
-When the MCU is reset, the boot loader (1) in the ROM area is executed first. 
+When the MCU is reset, the built-in bootloader (1) in the ROM area is executed first. 
 Then the second stage boot2 (2) located at the top of the flash is executed. 
 Typically boot2 is included in your application binary. 
 After that, application code (3) is executed. 
@@ -56,7 +56,7 @@ After that, application code (3) is executed.
 For applications that use Picoboot3, boot2 is included in the Picoboot3 binary.
 Picoboot3 is executed after boot2, something like "3rd stage". 
 
-First, Picoboot3 reads the BOOTSEL3 pin (default 22). 
+First, Picoboot3 reads the BOOTSEL3 pin (default is GP22). 
 If this pin is set low, picoboot3 will wait for the host to send firmware to the device.
 If the pin is set high or open, the application will run. 
 The application code is located at 32KB offset from the top of flash.
@@ -244,14 +244,14 @@ The host must delay the first activation command after reset by that amount of t
 
 ## Commands
 
-For multi-Bytes parameters, the low Bytes is sent first (little endian).
+For multi-bytes parameters, the low byte is sent first (little endian).
 Both UART and I2C follow the same command sequence.
 
 
 ### Activation Command
 
 Command that perform the handshake between the host and the device, and also select whether to use the UART or I2C interface. 
-The device responds with a specific 4-Bytesdata configurable in picoboot3.h. It is recommended that the host validate the data. 
+The device responds with a specific 4 bytes data configurable in picoboot3.h. It is recommended that the host validate the data. 
 
 Until the host issues an activation command, all other commands are rejected. 
 Once either the UART or I2C interface is selected, the other interface will not accept commands.
