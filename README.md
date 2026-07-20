@@ -112,6 +112,9 @@ Change PICO_BOARD value in [CMakeLists.txt](CMakeLists.txt) to match your board.
 set(PICO_BOARD pico CACHE STRING "Board type")
 ~~~
 
+Recommend to build on SDK 2.0.0, which is used for the tests. 
+You may build your application on different version of SDK. 
+
 Build Picoboot3 and write it to the board in the same way 
 as you would build a normal application. 
 
@@ -122,13 +125,65 @@ ninja -C build
 ~~~
 
 
-## Modify Your Application
+## Modify Your Application (SDK 2.3.0 or above)
 
 Two small changes are required to run your application on Picoboot3.
 - Add flash address offset (default 32KB). 
 - Exclude second stage boot2 as it's included in Picoboot3. (RP2040 only)
 
-See [blink project](examples/blink_pb3) as an example. 
+See [blink project](examples/blink_pb3/) as an example. 
+
+Create "memory_flash.incl" file into the project directory as shown below.
+~~~
+MEMORY
+{
+    FLASH(rx) : ORIGIN = 0x10000000 + 32k, LENGTH = 2048k - 32k
+}
+~~~
+
+"+ 32k" in ORIGIN is to add 32KB offset to the application. 
+While, subtract 32k from the total flash size of 2048k.
+As for total flash size, set it according to your board. 
+Using Pico2 it becomes 4096k. 
+
+Create EMPTY contents "section_boot2.incl" file into the project directory. 
+This overwrites the default boot2, meaning boot2 will be removed.
+(RP2040 only. Not needed for RP2350)
+
+Add below line to your CMakeLists.txt to load the above linker script override files. 
+~~~
+pico_add_linker_script_override_path(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR})
+~~~
+
+Now build it as you normally would. 
+
+You may get below error on RP2350. 
+~~~
+ERROR: Memory segment 20081000->20081800 is outside of valid address range for device
+~~~
+
+
+It will be fixed in future SDK version. 
+Temporary workaround is to add "set(PICO_NO_UF2 1)" before "pico_add_extra_outputs" in the CMakeLists.txt
+to avoid UF2 conversion. 
+~~~
+set(PICO_NO_UF2 1)
+pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
+~~~
+
+If you need UF2, convert from ELF manually with "--platform rp2350" option. 
+~~~
+picotool uf2 convert --platform rp2350 blink_pb3.elf blink_pb3.uf2
+~~~
+
+
+## Modify Your Application (SDK 2.0.0 - 2.2.0)
+
+Two small changes are required to run your application on Picoboot3.
+- Add flash address offset (default 32KB). 
+- Exclude second stage boot2 as it's included in Picoboot3. (RP2040 only)
+
+See [blink project](examples/blink_pb3_sdk2.0.0_2.2.0/) as an example. 
 
 Copy "memmap_default.ld" from Pico SDK to your project. 
 It's located in below path in Pico SDK
