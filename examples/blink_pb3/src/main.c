@@ -1,16 +1,16 @@
 
 #include "hardware/watchdog.h"
+#include "pico/status_led.h"
 #include "pico/stdlib.h"
 
 int main() {
-  gpio_init(PICO_DEFAULT_LED_PIN);
-  gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+  status_led_init();
 
   // Blink LED 10 times
   for (int i = 0; i < 10; i++) {
-    gpio_put(PICO_DEFAULT_LED_PIN, 1);
+    status_led_set_state(1);
     sleep_ms(1000);
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+    status_led_set_state(0);
     sleep_ms(1000);
   }
 

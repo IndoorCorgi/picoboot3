@@ -23,6 +23,7 @@ add_executable(${CMAKE_PROJECT_NAME}
 # SDK libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
   pico_stdlib
+  pico_status_led
 )
 
 if (PICO_CYW43_SUPPORTED)
@@ -31,15 +32,21 @@ if (PICO_CYW43_SUPPORTED)
   )
 endif()
 
+# Temporary workaround to prevent UF2 generation for RP2350 to avoid an error in SDK 2.3.0.
+# Will be fixed in future SDK version. 
+if(${PICO_PLATFORM} MATCHES "rp2350")
+  set(PICO_NO_UF2 1)
+endif()
+
 # create map/bin/hex file etc.
 pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
 
-# Linker
+# Show memory usage
 set_property(TARGET ${CMAKE_PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS "-Wl,--print-memory-usage")
 
+# Linker scripts override
 if(${PICO_PLATFORM} STREQUAL "rp2040")
-  pico_set_linker_script(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/memmap_default_rp2040.ld)
+  pico_add_linker_script_override_path(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/linker_script_rp2040)
 elseif(${PICO_PLATFORM} MATCHES "rp2350")
-  pico_set_linker_script(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/memmap_default_rp2350.ld)
+  pico_add_linker_script_override_path(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/linker_script_rp2350)
 endif()
-

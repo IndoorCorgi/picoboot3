@@ -3,6 +3,8 @@
 An example blink project to run with Picoboot3. 
 After blinking LED 10 times, enter picoboot3 without holding BOOTSEL3 pin. 
 
+It's for SDK 2.0.0 to 2.2.0. SDK 2.3.0 example is [here](../blink_pb3/). 
+
 ## Key Changes
 
 - Copied memmap_default.ld from SDK

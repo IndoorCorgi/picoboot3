@@ -3,21 +3,20 @@
 An example blink project to run with Picoboot3. 
 After blinking LED 10 times, enter picoboot3 without holding BOOTSEL3 pin. 
 
+This example is for SDK 2.3.0 or above. Example for SDK 2.0.0 - 2.2.0 is [here](../blink_pb3_sdk2.0.0_2.2.0/). 
+
 ## Key Changes
 
-- Copied memmap_default.ld from SDK
-- Added 32KB offset in the ld file
-- Removed boot2 in the ld file
-- Changed CMakeLists.txt to load modified ld file
+- Created linker script override files in linker_script_XXXX directory. 
+- Described flash address with 32KB offset in the memory_flash.incl file. 
+- Keep section_boot2.incl blank to removed boot2 for RP2040. 
+- Added pico_add_linker_script_override_path(...) to the CMakeLists.txt to load override files. 
 
 
 ## How to Build
 
 If you use VS Code and Raspberry Pi Pico extension, 
 open this directory and import as Raspberry Pi Pico project. 
-
-The pico_sdk_import.cmake and memmap_default.ld are based on SDK 2.2.0. 
-It should works on SDK 2.0.0 and 2.1.1 as well. 
 
 Change PICO_BOARD value in [CMakeLists.txt](CMakeLists.txt) to match your board. 
 (e.g. pico2)
