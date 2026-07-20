@@ -9,7 +9,7 @@ This example is for SDK 2.3.0 or above. Example for SDK 2.0.0 - 2.2.0 is [here](
 
 - Created linker script override files in linker_script_XXXX directory. 
 - Described flash address with 32KB offset in the memory_flash.incl file. 
-- Keep section_boot2.incl blank to removed boot2 for RP2040. 
+- Keep section_boot2.incl blank to remove boot2 for RP2040. 
 - Added pico_add_linker_script_override_path(...) to the CMakeLists.txt to load override files. 
 
 

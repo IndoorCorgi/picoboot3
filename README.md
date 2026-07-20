@@ -67,7 +67,7 @@ For more information about bootloader, you can read a
 by V. Hunter Adams.
 
 
-## Supoorted Platform
+## Supported Platform
 
 - picoboot3 and the [sample application](examples/blink_pb3) that runs with picoboot3 is tested on Pico C/C++ SDK 2.0.0.
 - Other platform applications (e.g. rp-rs, Arduino core) should work with picoboot3 if you add flash address offset and remove boot2. 
