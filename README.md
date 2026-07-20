@@ -69,7 +69,7 @@ by V. Hunter Adams.
 
 ## Supported Platform
 
-- picoboot3 and the [sample application](examples/blink_pb3) that runs with picoboot3 is tested on Pico C/C++ SDK 2.0.0.
+- picoboot3 and the [sample application](examples/blink_pb3) that runs with picoboot3 is tested on Pico C/C++ SDK.
 - Other platform applications (e.g. rp-rs, Arduino core) should work with picoboot3 if you add flash address offset and remove boot2. 
 - Support RP2040 and RP2350 MCUs. 
 - Support Arm core. RISC-V core is not supproted. 
@@ -112,7 +112,7 @@ Change PICO_BOARD value in [CMakeLists.txt](CMakeLists.txt) to match your board.
 set(PICO_BOARD pico CACHE STRING "Board type")
 ~~~
 
-Recommend to build on SDK 2.0.0, which is used for the tests. 
+Recommend to build Picoboot3 on SDK 2.0.0, which is used for the tests. 
 You may build your application on different version of SDK. 
 
 Build Picoboot3 and write it to the board in the same way 
@@ -171,9 +171,9 @@ set(PICO_NO_UF2 1)
 pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
 ~~~
 
-If you need UF2, convert from ELF manually with "--platform rp2350" option. 
+If you need UF2, convert from ELF with "--platform rp2350" option. 
 ~~~
-picotool uf2 convert --platform rp2350 blink_pb3.elf blink_pb3.uf2
+picotool uf2 convert --platform rp2350 your_firmware.elf your_firmware.uf2
 ~~~
 
 
