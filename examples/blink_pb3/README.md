@@ -32,6 +32,27 @@ ninja -C build
 ~~~
 
 
+## Known issue on SDK 2.3.0
+
+You may get below error on SDK 2.3.0 and RP2350 combination. 
+~~~
+ERROR: Memory segment 20081000->20081800 is outside of valid address range for device
+~~~
+
+Recommend using SDK 2.3.1, in which the issue was fixed.
+The workaround on SDK 2.3.0 is to add "set(PICO_NO_UF2 1)" before "pico_add_extra_outputs" in the CMakeLists.txt
+to avoid UF2 conversion. 
+~~~
+set(PICO_NO_UF2 1)
+pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
+~~~
+
+If you need UF2, convert from ELF with "--platform rp2350" option. 
+~~~
+picotool uf2 convert --platform rp2350 your_firmware.elf your_firmware.uf2
+~~~
+
+
 ## Write Firmware via UART
 
 ~~~

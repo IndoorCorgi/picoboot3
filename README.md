@@ -157,25 +157,6 @@ pico_add_linker_script_override_path(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR})
 
 Now build it as you normally would. 
 
-You may get below error on RP2350. 
-~~~
-ERROR: Memory segment 20081000->20081800 is outside of valid address range for device
-~~~
-
-
-It will be fixed in future SDK version. 
-Temporary workaround is to add "set(PICO_NO_UF2 1)" before "pico_add_extra_outputs" in the CMakeLists.txt
-to avoid UF2 conversion. 
-~~~
-set(PICO_NO_UF2 1)
-pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
-~~~
-
-If you need UF2, convert from ELF with "--platform rp2350" option. 
-~~~
-picotool uf2 convert --platform rp2350 your_firmware.elf your_firmware.uf2
-~~~
-
 
 ## Modify Your Application (SDK 2.0.0 - 2.2.0)
 

@@ -32,12 +32,6 @@ if (PICO_CYW43_SUPPORTED)
   )
 endif()
 
-# Temporary workaround to prevent UF2 generation for RP2350 to avoid an error in SDK 2.3.0.
-# Will be fixed in future SDK version. 
-if(${PICO_PLATFORM} MATCHES "rp2350")
-  set(PICO_NO_UF2 1)
-endif()
-
 # create map/bin/hex file etc.
 pico_add_extra_outputs(${CMAKE_PROJECT_NAME})
 
